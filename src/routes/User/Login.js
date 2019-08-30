@@ -54,7 +54,7 @@ export default class LoginPage extends Component {
       Cookie.set("username", username);
       Cookie.set("email", email);
       // Cookie.set("authorization", token.replace("Bearer+", "Bearer "));
-      localStorage.setItem("authorization", token)
+      localStorage.setItem("authorization", token.replace("Bearer+", "Bearer "))
       localStorage.setItem("username", username)
       localStorage.setItem("email", email)
       setAuthority("admin");
