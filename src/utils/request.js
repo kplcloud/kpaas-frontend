@@ -101,12 +101,12 @@ export default function request(url, options) {
 
   }
 
-  newOptions.authorization = Cookie.get("authorization");
+  newOptions.authorization = localStorage.getItem("authorization")
   // newOptions.mode = "cors";
    newOptions.headers = {...newOptions.headers, ...{
         "Accept": 'application/json',
         'Content-Type': 'application/json; charset=utf-8',
-        "Authorization": Cookie.get("authorization")
+        "Authorization": localStorage.getItem("authorization")
   }}
   return fetch(url, newOptions)
     .then(checkStatus)

@@ -75,7 +75,6 @@ const tabList = [{
 }];
 
 function onTabChange(key) {
-  console.log(key);
 }
 
 ReactDOM.render(

@@ -28,7 +28,7 @@ export async function putFilebeat(params) {
 }
 
 export async function putProbe(params) {
-  return request(`/deployment/${params.namespace}/probe/${params.projectName}`, {
+  return request(`/deployment/${params.namespace}/probe/${params.name}`, {
     method: 'PUT',
     body: {
       ...params,

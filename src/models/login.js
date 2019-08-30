@@ -46,7 +46,10 @@ export default {
         Cookie.set("username", response.data.username);
         Cookie.set("email", response.data.email);
         //Cookie.set("Authorization", response.data.token);
-        Cookie.set("authorization", response.data.token);
+        //Cookie.set("authorization", response.data.token);
+        localStorage.setItem("authorization", response.data.token)
+        localStorage.setItem("username", response.data.username)
+        localStorage.setItem("email", response.data.email)
         reloadAuthorized();
         yield put(routerRedux.push('/'));
 
@@ -64,7 +67,6 @@ export default {
       Cookie.set("username", "");
       Cookie.set("email", "");
       Cookie.set("authorization", "");
-      console.log("logout......")
       try {
         // get location pathname
         const urlParams = new URL(window.location.href);

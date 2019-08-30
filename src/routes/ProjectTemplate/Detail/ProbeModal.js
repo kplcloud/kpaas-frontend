@@ -1,5 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
-import { Modal, Tooltip, InputNumber, Form, Input, Radio, Icon } from 'antd';
+import { Modal, Tooltip, InputNumber, Form, Input, Checkbox, Icon, Row, Col } from 'antd';
 import { connect } from 'dva';
 
 const FormItem = Form.Item;
@@ -29,7 +29,7 @@ class ProbeModal extends PureComponent {
       dispatch({
         type: 'project/onPutProbe',
         payload: {
-          projectName: name,
+          name: name,
           namespace: namespace,
           ...values,
         },
@@ -62,15 +62,16 @@ class ProbeModal extends PureComponent {
       container = containers[i];
     }
 
-    let probe;
+    let probe, live;
+    let probes = [];
     if (container.readinessProbe) {
       probe = container.readinessProbe;
-    } else if (container.livenessProbe) {
-      probe = container.livenessProbe;
+      probes.push("Readiness")
     }
-    console.log(probe);
-    console.log(probe && probe.httpGet && probe.httpGet.path);
-    console.log(protocol);
+    if (container.livenessProbe) {
+      live = container.livenessProbe;
+      probes.push("Liveness")
+    }   
     return (
       <Modal
         visible={visible}
@@ -86,7 +87,7 @@ class ProbeModal extends PureComponent {
                     {...formItemLayout}
           >
             {getFieldDecorator('port', {
-              initialValue: container.livenessProbe && container.livenessProbe.httpGet ? (probe && probe.httpGet && probe.httpGet.port) : (probe && probe.tcpSocket && probe.tcpSocket.port),
+              initialValue: container.livenessProbe && container.livenessProbe.httpGet ? (live && live.httpGet && live.httpGet.port) : (probe && probe.tcpSocket && probe.tcpSocket.port),
               rules: [{ required: true, message: '检测端口不能为空!' }],
             })(
               <InputNumber min={80} placeholder={8080} max={65535}/>,
@@ -96,13 +97,20 @@ class ProbeModal extends PureComponent {
             {...formItemLayout}
             label="协议"
           >
-            {getFieldDecorator('protocol', {
-              initialValue: container.livenessProbe ? 'HTTP' : 'TCP',
+            {getFieldDecorator('probe', {
+              initialValue: probes,
             })(
-              <Radio.Group onChange={this.onChangeProtocol}>
-                <Radio value="TCP">TCP</Radio>
-                <Radio value="HTTP">HTTP</Radio>
-              </Radio.Group>,
+              <Checkbox.Group style={{ width: '100%' }} onChange={(v) => console.log(v)}>
+                <Row>
+                  <Col span={12}>
+                    <Checkbox value="Readiness">Readiness</Checkbox>
+                  </Col>
+                  <Col span={12}>
+                    <Checkbox value="Liveness">Liveness</Checkbox>
+                  </Col>
+                
+                </Row>
+              </Checkbox.Group>
             )}
           </FormItem>
           <FormItem
@@ -166,17 +174,16 @@ class ProbeModal extends PureComponent {
               <InputNumber min={1} placeholder={3} max={65535}/>,
             )} 秒
           </FormItem>
-          {protocol == 'HTTP' && container.livenessProbe ?
             <FormItem label={<Tooltip title="如果是http 需要服务提供一个检测uri http_status返回200就行">
               <Icon type="info-circle-o"/>路径</Tooltip>}
                       {...formItemLayout}
             >
               {getFieldDecorator('path', {
-                initialValue: probe.httpGet.path,
+                initialValue: "",
               })(
-                <span><Input placeholder="/health" value={probe.httpGet.path}/></span>,
+                <span><Input placeholder="/health" value={container.livenessProbe && container.livenessProbe.httpGet.path} /></span>,
               )}
-            </FormItem> : ''}
+            </FormItem>
         </Form>
       </Modal>
     );

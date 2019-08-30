@@ -558,7 +558,7 @@ class Overview extends React.PureComponent {
         </Button>}>
         <DescriptionList style={{ marginBottom: 24 }}>
           <Description
-            term="协议">{container.readinessProbe ? 'TCP' : container.livenessProbe ? 'HTTP' : ''}</Description>
+            term="就绪">{container.readinessProbe ? 'TCP' : container.livenessProbe ? 'HTTP' : ''}</Description>
           <Description
             term="端口">{probe && probe.tcpSocket && probe.tcpSocket.port ? probe.tcpSocket.port : ''}</Description>
           <Description term="初始化等候时间">{probe && probe.initialDelaySeconds}s</Description>
@@ -734,7 +734,6 @@ class Overview extends React.PureComponent {
     });
   };
   ingressesParam = (ingresses, project) => {
-    console.log("ingresses", ingresses)
     return (
       <Card title="外部地址" style={{ marginBottom: 24 }} bordered={false} extra={
         <span>
