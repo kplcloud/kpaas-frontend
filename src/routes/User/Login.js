@@ -54,9 +54,9 @@ export default class LoginPage extends Component {
       Cookie.set("username", username);
       Cookie.set("email", email);
       // Cookie.set("authorization", token.replace("Bearer+", "Bearer "));
-      localStorage.setItem("authorization", response.data.token)
-      localStorage.setItem("username", response.data.username)
-      localStorage.setItem("email", response.data.email)
+      localStorage.setItem("authorization", token)
+      localStorage.setItem("username", username)
+      localStorage.setItem("email", email)
       setAuthority("admin");
       // this.props.dispatch(routerRedux.push('/dashboard/workplace'))
       window.location.href = "/"
