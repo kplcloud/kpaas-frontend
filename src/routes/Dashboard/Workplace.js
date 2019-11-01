@@ -9,6 +9,7 @@ import EditableLinkGroup from 'components/EditableLinkGroup';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import Cookie from 'js-cookie';
 // import ReactEcharts from "echarts-for-react";
+import UserLanding from './UserLanding/index'
 import {
   ChartCard,
   MiniArea,
@@ -25,6 +26,7 @@ import styles from './Workplace.less';
   activitiesLoading: loading.effects['activities/fetchList'],
   cpuAndMemoryMetrics: monitor.cpuAndMemoryMetrics,
   ownergrouplist: group.ownergrouplist,
+  user: user
 }))
 export default class Workplace extends PureComponent {
   componentDidMount() {
@@ -111,49 +113,70 @@ export default class Workplace extends PureComponent {
       namespaces,
       cpuAndMemoryMetrics,
       ownergrouplist,
+      user
     } = this.props;
 
-    const pageHeaderContent = (
-      <div className={styles.pageHeaderContent}>
-        <div className={styles.avatar}>
-          <Avatar
-            size="large"
-            src="https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png"
-          />
-        </div>
-        <div className={styles.content}>
-          <div className={styles.contentTitle}>Hello! {Cookie.get('username')}，祝您开心每一天！</div>
-          {/* <div>宜人精英 | {Cookie.get("namespace")}</div> */}
-          <div className={styles.contentLink}>
-            {/* <a>
-            <img alt="" src="https://gw.alipayobjects.com/zos/rmsportal/MjEImQtenlyueSmVEfUD.svg" />{' '}
-            快速开始
-          </a>
-          <a>
-            <img alt="" src="https://gw.alipayobjects.com/zos/rmsportal/NbuDUAuBlIApFuDvWiND.svg" />{' '}
-            产品简介
-          </a> */}
-            <a target="_black" href="https://docs.nsini.com/">
-              <img alt="" src="https://gw.alipayobjects.com/zos/rmsportal/ohOEPSYdDTNnyMbGuyLb.svg"/>{' '}
-              使用文档
-            </a>
-          </div>
-        </div>
-      </div>
-    );
+    const pageHeaderContent = <UserLanding user={user} />
+
+    // const pageHeaderContent = (
+    //   <div className={styles.pageHeaderContent}>
+    //     <div className={styles.avatar}>
+    //       <Avatar
+    //         size="large"
+    //         src="https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png"
+    //       />
+    //     </div>
+    //     <div className={styles.content}>
+    //       <div className={styles.contentTitle}>Hello! {Cookie.get('username')}，祝您开心每一天！</div>
+    //       {/* <div>宜人精英 | {Cookie.get("namespace")}</div> */}
+    //       <div className={styles.contentLink}>
+    //         {/* <a>
+    //         <img alt="" src="https://gw.alipayobjects.com/zos/rmsportal/MjEImQtenlyueSmVEfUD.svg" />{' '}
+    //         快速开始
+    //       </a>
+    //       <a>
+    //         <img alt="" src="https://gw.alipayobjects.com/zos/rmsportal/NbuDUAuBlIApFuDvWiND.svg" />{' '}
+    //         产品简介
+    //       </a> */}
+    //         <a target="_black" href="https://docs.nsini.com/">
+    //           <img alt="" src="https://gw.alipayobjects.com/zos/rmsportal/ohOEPSYdDTNnyMbGuyLb.svg"/>{' '}
+    //           使用文档
+    //         </a>
+    //       </div>
+    //     </div>
+    //   </div>
+    // );
 
     const extraContent = (
       <div className={styles.extraContent}>
-        <div className={styles.statItem}>
-          <Link to="/project/create/info"><Button style={{ width: 120 }} type="primary"><Icon
-            type="plus"/>创建服务</Button></Link>
-        </div>
-        <div className={styles.extraImg}>
-          <img
-            alt="这是一个标题"
-            src="https://niu.yirendai.com/bubbles.png"
-          />
-        </div>
+        <div style={{ height: 100 }}>
+            <h3 style={{ margin: 0, color: '#333' }}><a target="_black" href="http://wiki.yrd.creditease.corp/pages/viewpage.action?pageId=22479813">
+              <img alt="" src="https://gw.alipayobjects.com/zos/rmsportal/ohOEPSYdDTNnyMbGuyLb.svg"/>{' '}
+              使用文档
+            </a></h3>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                fontSize: 12,
+                justifyContent: 'space-between',
+                padding: '5px 0 5px 0',
+                borderBottom: '1px solid #f6f6f6',
+              }}
+            >
+            </div>
+            <div style={{ paddingTop: 10, textAlign: 'center' }}>
+              <Link to="/project/create/info">
+                <Button style={{ width: 120 }} type="primary" style={{
+                width: '100%',
+                lineHeight: '40px',
+                height: 40,
+                borderRadius: 4,
+              }}>
+                <Icon type="plus"/>创建新应用</Button>
+              </Link>
+            </div>
+          </div>
       </div>
     );
     return (

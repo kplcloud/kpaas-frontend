@@ -27,6 +27,7 @@ import EditProjectInfo from '../../components/Project/EditProjectInfo';
 import UnAuditOverview from './Detail/UnAuditOverview';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { tomorrowNight } from 'react-syntax-highlighter/styles/hljs';
+import Monitor from './Detail/Moritor';
 
 const visitData = [];
 const beginDay = new Date().getTime();
@@ -55,6 +56,9 @@ const tabList = [{
 }, {
   key: 'webhooks',
   tab: 'Webhooks',
+}, {
+  key: 'monitor',
+  tab: '监控',
 }];
 const tabList2 = [
   {
@@ -548,7 +552,10 @@ class Detail extends PureComponent {
           deployment={deployment}
         />
         }
-        {this.state.showLab === 'webhooks' && (<Webhooks {...{ 'project': project }}/>)}
+        
+      {this.state.showLab === 'webhooks' && (<Webhooks {...{ 'project': project }}/>)}
+      {this.state.showLab === 'monitor' && (<Monitor/>)}
+
         {buildModal && <BuildMoadl {...AddBuildModalProps}/>}
         {extendModal && <ExtendModal {...AddExtendModalProps}/>}
         {expansionModal && <ExpansionModal {...AddExpansionModalProps}/>}
