@@ -14,30 +14,38 @@ class Index extends Component {
 
 
   componentWillMount() {
-    const { dispatch} = this.props;
-    
+    const { dispatch, namespace, name } = this.props;
+    dispatch({
+      type: 'monitor/fetchProjectMetrics',
+      payload: {
+        ns: namespace,
+        name: name,
+      },
+    });
   }
 
   componentDidMount() {
-    
+
   }
 
   render() {
+    const { monitor: { podMonitor: { metrics } }, namespace, name } = this.props;
+    console.log(metrics);
+    console.log(this.props);
     return (
       <div className="moritor-page">
-        <Notifications />
+        <Notifications/>
         {/* 适用于顶部的消息提示 */}
         {/* <NoticeCard /> */}
         {/* 叠加面积图 */}
-        <AreaStackChart />
+        <AreaStackChart data={metrics} namespace={namespace} name={name}/>
 
-        <ChartArea />
+        <ChartArea/>
 
         {/* <PerformanceChart /> */}
       </div>
     );
   }
 }
-export default connect(({ }) => ({
 
-}))(Index);
+export default connect(({ monitor }) => ({ monitor }))(Index);

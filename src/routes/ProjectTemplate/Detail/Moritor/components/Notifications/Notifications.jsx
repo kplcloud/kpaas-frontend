@@ -15,7 +15,7 @@ export default class Notifications extends Component {
 
   render() {
     return (
-      <Card title="重要提醒">
+      <Card title="重要提醒" style={{marginBottom: 20}}>
         <Row wrap>
           <Col l="12" xxs="24">
             <div style={styles.noticeItem}>

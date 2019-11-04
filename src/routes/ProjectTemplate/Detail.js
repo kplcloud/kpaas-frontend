@@ -319,7 +319,7 @@ class Detail extends PureComponent {
   };
 
   render() {
-    const { data, gitlab, dispatch, builds, jenkins, ingress, match } = this.props;
+    const { data, gitlab, dispatch, builds, jenkins, ingress, match, monitor } = this.props;
     const { buildModal, extendModal, expansionModal, projectKibanaUrl, projectTransferUrl, showModelModal, modelModalVisible } = data;
     const { auditList, serviceMetrics } = data;
     const { branches, tags, loading } = gitlab;
@@ -361,7 +361,7 @@ class Detail extends PureComponent {
       <DescriptionList className={styles.headerList} size="small" col="2">
         <Description term="创建人">{project && project.member ? project.member.username : ''}</Description>
         <Description term="业务空间"><Tag color="orange"
-                                     style={{ fontSize: 20 }}>{project ? project.namespace : ''}</Tag></Description>
+                                      style={{ fontSize: 20 }}>{project ? project.namespace : ''}</Tag></Description>
         <Description
           term="项目中文名">{project ? project.display_name : ''}<EditProjectInfo {...{ 'project': project, ...this.props }}/></Description>
         <Description
@@ -552,9 +552,9 @@ class Detail extends PureComponent {
           deployment={deployment}
         />
         }
-        
-      {this.state.showLab === 'webhooks' && (<Webhooks {...{ 'project': project }}/>)}
-      {this.state.showLab === 'monitor' && (<Monitor/>)}
+
+        {this.state.showLab === 'webhooks' && (<Webhooks {...{ 'project': project }}/>)}
+        {this.state.showLab === 'monitor' && (<Monitor monitor={monitor} namespace={project.namespace} name={project.name} />)}
 
         {buildModal && <BuildMoadl {...AddBuildModalProps}/>}
         {extendModal && <ExtendModal {...AddExtendModalProps}/>}
@@ -578,11 +578,12 @@ class Detail extends PureComponent {
 
 }
 
-export default connect(({ project, gitlab, builds, jenkins, ingress }) => ({
+export default connect(({ project, gitlab, builds, jenkins, monitor, ingress }) => ({
   data: project,
   gitlab,
   builds,
   jenkins,
   ingress,
+  monitor,
   loading: project.loading,
 }))(Detail);
