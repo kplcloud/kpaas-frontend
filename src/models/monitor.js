@@ -1,5 +1,5 @@
 // import { queryTags } from '../services/api';
-import {getNamespaceMetrics, getDashboardMonitor, getRequestOps, getNetwork, getProjectMetrics} from '../services/monitor';
+import {getNamespaceMetrics, getDashboardMonitor, getRequestOps, getNetwork, getProjectMetrics, getProjectAlerts} from '../services/monitor';
 import {message} from 'antd'
 
 export default {
@@ -10,7 +10,8 @@ export default {
     cpuAndMemory: {},
     ops: [],
     network: [],
-    podMonitor: []
+    podMonitor: [],
+    alerts: {},
   },
 
   effects: {
@@ -88,6 +89,22 @@ export default {
         type: 'save',
         payload: {
           podMonitor: response.data
+        },
+      });
+    },
+    *fetchProjectAlerts({payload, callback}, {call, put}) {
+      const response = yield call(getProjectAlerts, payload);
+      if(!response) {
+        return
+      }
+      if (response.code != 0){
+        message.error(response.error)
+        return
+      }
+      yield put({
+        type: 'save',
+        payload: {
+          alerts: response.data
         },
       });
     }

@@ -14,18 +14,22 @@ export default class Notifications extends Component {
   }
 
   render() {
+
+    const { data } = this.props;
+
+    if (!data) {
+      return ('');
+    }
+
     return (
-      <Card title="重要提醒" style={{marginBottom: 20}}>
+      <Card title="重要提醒" style={{ marginBottom: 20 }}>
         <Row wrap>
           <Col l="12" xxs="24">
             <div style={styles.noticeItem}>
               <div style={styles.noticeItemTitle}>告警相关</div>
               <div style={styles.noticeItemBody}>
                 <div style={styles.bodyItem}>
-                  告警数量：<a href="#">100</a>
-                </div>
-                <div style={styles.bodyItem}>
-                  未查看告警：<a href="#">0</a>
+                  告警数量：<a href="#">{data.alert_total}</a>
                 </div>
               </div>
             </div>
@@ -36,16 +40,16 @@ export default class Notifications extends Component {
               <div style={styles.noticeItemTitle}>构建信息</div>
               <div style={styles.noticeItemBody}>
                 <div style={styles.bodyItem}>
-                  构建量<a href="#">100</a>
+                  构建量<a href="#">{data.build_total}</a>
                 </div>
                 <div style={styles.bodyItem}>
-                  成功：<a href="#">0</a>
+                  成功：<a href="#">{data.build_success_total}</a>
                 </div>
                 <div style={styles.bodyItem}>
-                  失败：<a href="#">0</a>
+                  失败：<a href="#">{data.build_failure_total}</a>
                 </div>
                 <div style={styles.bodyItem}>
-                  进行中：<a href="#">0</a>
+                  回滚：<a href="#">{data.rollback_total}</a>
                 </div>
               </div>
             </div>

@@ -9,12 +9,14 @@ export default class AreaStackChart extends Component {
   static displayName = '内存使用率';
 
   state = {
-    pod: ""
+    pod: null,
   };
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      pod: null,
+    };
   }
 
   // 使用内存
@@ -23,54 +25,46 @@ export default class AreaStackChart extends Component {
 
   onChangePod = (name) => {
     this.setState({
-      pod: name
-    })
-    console.log(name)
+      pod: name,
+    });
   };
 
   render() {
     const { data } = this.props;
     const dds = [];
+    let { pod } = this.state;
 
     if (!data) {
       return ('');
     }
-    console.log(data)
 
     const pods = [];
     for (let i in  data) {
-      console.log(data[i])
-      pods.push(data[i].pod)
+      pods.push(i);
+    }
+    if (pod == null) {
+      pod = pods[0];
     }
 
-    for (let i in  data) {
-      for (let n in data[i].containers) {
-        if (!data[i].containers[n].memory) {
-          continue
-        }
-        (data[i].containers[n].memory).map((item, key) => {
-          dds.push({
-            name: data[i].containers[n].name,
-            x: moment(item.x).format("H:mm:ss"),
-            y: item.y / 1024 / 1024,
-          });
-        });
-
+    for (let n in data[pod]) {
+      if (!data[pod][n]) {
+        continue;
+      }
+      for (let x in data[pod][n]) {
+        if (x != 'memory-usage' || !data[pod][n][x]) continue;
+        (data[pod][n][x]).map((item, key) => dds.push({
+          name: n,
+          x: moment(item.x).format("H:mm:ss"),
+          y: item.y / 1024 / 1024,
+        }));
       }
     }
-    console.log(pods)
 
-    const cols = {
-      // year: {
-      //   type: 'linear',
-      //   tickInterval: 10,
-      // },
-    };
 
     const extraContent = (
-      <div style={{marginLeft: 16, width: 360}}>
+      <div style={{ marginLeft: 16, width: 360 }}>
         <Select
-          defaultValue={data[0].pod}
+          defaultValue={pods[0]}
           showSearch
           style={{ width: 320 }}
           placeholder="请选择pod"
@@ -79,19 +73,25 @@ export default class AreaStackChart extends Component {
           //filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
         >
           {pods.map((item, key) => {
-            return <Select.Option key={item} value={item}>{item}</Select.Option>
+            return <Select.Option key={item} value={item}>{item}</Select.Option>;
           })}
         </Select>
 
       </div>
     );
 
+    const cols = {
+      y: {
+        alias: "MB"
+      }
+    };
+
     return (
-      <div className="area-stack-chart" style={{marginBottom: 20}}>
-        <Card title="内存使用" extra={extraContent}>
+      <div className="area-stack-chart" style={{ marginBottom: 20 }}>
+        <Card title={`内存使用 ${pod}`} extra={extraContent}>
           <Chart height={400} data={dds} scale={cols} forceFit>
             <Axis name="x"/>
-            <Axis name="y"/>
+            <Axis name="y" title/>
             <Legend/>
             <Tooltip crosshairs={{ type: 'line' }}/>
             <Geom type="area" position="x*y" color="name"/>

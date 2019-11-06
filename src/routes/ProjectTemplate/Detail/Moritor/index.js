@@ -22,6 +22,13 @@ class Index extends Component {
         name: name,
       },
     });
+    dispatch({
+      type: 'monitor/fetchProjectAlerts',
+      payload: {
+        ns: namespace,
+        name: name,
+      },
+    });
   }
 
   componentDidMount() {
@@ -29,18 +36,16 @@ class Index extends Component {
   }
 
   render() {
-    const { monitor: { podMonitor: { metrics } }, namespace, name } = this.props;
-    console.log(metrics);
-    console.log(this.props);
+    const { monitor: { podMonitor, alerts }, namespace, name } = this.props;
     return (
       <div className="moritor-page">
-        <Notifications/>
+        <Notifications data={alerts}/>
         {/* 适用于顶部的消息提示 */}
         {/* <NoticeCard /> */}
         {/* 叠加面积图 */}
-        <AreaStackChart data={metrics} namespace={namespace} name={name}/>
+        <AreaStackChart data={podMonitor}/>
 
-        <ChartArea/>
+        <ChartArea data={podMonitor}/>
 
         {/* <PerformanceChart /> */}
       </div>
