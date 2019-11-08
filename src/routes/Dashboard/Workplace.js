@@ -150,7 +150,7 @@ export default class Workplace extends PureComponent {
     const extraContent = (
       <div className={styles.extraContent}>
         <div style={{ height: 100 }}>
-            <h3 style={{ margin: 0, color: '#333' }}><a target="_black" href="http://wiki.yrd.creditease.corp/pages/viewpage.action?pageId=22479813">
+            <h3 style={{ margin: 0, color: '#333' }}><a target="_black" href="https://docs.nsini.com/use/dashboard/workspace.html">
               <img alt="" src="https://gw.alipayobjects.com/zos/rmsportal/ohOEPSYdDTNnyMbGuyLb.svg"/>{' '}
               使用文档
             </a></h3>
