@@ -36,8 +36,8 @@ class Step2 extends React.PureComponent {
     gitPath: '',
     gitVersioin: '',
     addPort: false,
-    jarCommand: `"java"`,
-    tomcatCommand: `"/bin/sh","/opt/soft/tomcat/bin/catalina.sh","run"`,
+    jarCommand: `java`,
+    tomcatCommand: `/bin/sh,/opt/soft/tomcat/bin/catalina.sh,run`,
   };
 
   componentWillMount() {
@@ -132,7 +132,7 @@ class Step2 extends React.PureComponent {
     this.props.dispatch({
       type: 'project/changeServiceStart',
       payload: {
-        serviceStart: e.target.value,
+        serviceStart: parseInt(e.target.value),
       },
     });
 
@@ -244,7 +244,14 @@ class Step2 extends React.PureComponent {
               argsData.push(value);
             }
           });
+        } else if (values && values['env'] && values['env'].length > 0) {
+          values['env'].split(' ').map((value) => {
+            if (value) {
+              argsData.push(value);
+            }
+          });
         }
+
         // params.id = match.params.projectId;
         params.name = match.params.name;
         params.namespace = match.params.namespace;
@@ -264,7 +271,7 @@ class Step2 extends React.PureComponent {
         params.resource_model = values.mesh ? values.mesh : 'normal';
         params.double_service = doubleService;
         params.service_start = values.service_start;
-        params.env = values.env;
+        // params.env = values.env;
         params.git_pomfile = values.git_pomfile;
         params.language = language ? language : 'Golang';
         params.git_buildpath = values.git_buildpath;
@@ -286,19 +293,12 @@ class Step2 extends React.PureComponent {
             return;
           }
           portsData.push(params.ports[i]['port']);
-          if (params.ports[i]['port'] === 9123) {
-            addPorts = false;
-          }
           if (params.ports[i]['port'] === 20880) {
             doubleService = false;
           }
         }
         if (!this.state.addPort) {
           params.ports.push({ port: 8080, protocol: 'TCP', name: 'http-8080' });
-        }
-
-        if (data.javaState && addPorts) {
-          params.ports.push({ port: 9123, protocol: 'TCP', name: 'http-9123' });
         }
         if (data.javaState && doubleService) {
           params.ports.push({ port: 20880, protocol: 'TCP', name: 'dubbo-port' });
@@ -683,7 +683,7 @@ class Step2 extends React.PureComponent {
         {/*</Form.Item>*/}
         {/*)}*/}
 
-        {data.javaState && data.serviceStart !== '1' && (
+        {data.javaState && data.serviceStart !== 1 && (
           <Form.Item
             {...formItemLayout}
             label={
@@ -695,25 +695,29 @@ class Step2 extends React.PureComponent {
             help="根据自己的需求配置，多个参数请用空格 隔开"
           >
             {getFieldDecorator('env', {
-              initialValue: `-server -Xms1G -Xmx1G -Xmn128m -Xss1024K -XX:PermSize=256m -XX:MaxPermSize=512m -XX:ParallelGCThreads=4 -XX:+UseConcMarkSweepGC -XX:+UseParNewGC -XX:+UseCMSCompactAtFullCollection -XX:SurvivorRatio=6 -XX:MaxTenuringThreshold=10 -XX:CMSInitiatingOccupancyFraction=80 -Djava.security.egd=file:/dev/./urandom -Djava.util.prefs.systemRoot=/home/tomcat/.java -Djava.util.prefs.userRoot=/home/tomcat/.java/.userPrefs`,
+              initialValue: `-server -Xms${data.cpuHalfNum} -Xmx${data.cpuHalfNum} -Xmn128m -Xss1024K -XX:PermSize=256m -XX:MaxPermSize=512m -XX:ParallelGCThreads=4 -XX:+UseConcMarkSweepGC -XX:+UseParNewGC -XX:+UseCMSCompactAtFullCollection -XX:SurvivorRatio=6 -XX:MaxTenuringThreshold=10 -XX:CMSInitiatingOccupancyFraction=80`,
+              rules: [{
+                pattern: '^[^\u4e00-\u9fa5]+$',
+                message: '不能含有中文字符',
+              }],
             })(<Input.TextArea placeholder="多个env需要用空格隔开" style={{ height: 100 }}
                                onBlur={() => onValidateForm(true)}/>)}
           </Form.Item>
         )}
 
-        {data.javaState && data.serviceStart === '1' && (
+        {data.javaState && data.serviceStart === 1 && (
           <Form.Item
             {...formItemLayout}
             label={
               <Tooltip
-                title='多个args需要用逗号隔开,例如："-jar", "/usr/local/eureka.jar","--server.port=8000"'>
+                title='多个args需要用逗号隔开,例如：-jar, /usr/local/eureka.jar,--server.port=8000'>
                 <Icon type="info-circle-o"/>args
               </Tooltip>
             }
             help="根据自己的需求配置，多个参数请用逗号,隔开"
           >
             {getFieldDecorator('args', {
-              initialValue: `"-jar","-Xms${data.cpuHalfNum}","-Xmx${data.cpuHalfNum}","-XX:MaxGCPauseMillis=50","-XX:MetaspaceSize=128m","-XX:MaxMetaspaceSize=256m","-XX:+UseG1GC","-XX:+UseStringDeduplication","-XX:StringDeduplicationAgeThreshold=8","-javaagent:/usr/local/jmx_prometheus_javaagent-0.3.0.jar=9123:/usr/local/tomcat.yml",`,
+              initialValue: `-jar,-Xms${data.cpuHalfNum},-Xmx${data.cpuHalfNum},-XX:MaxGCPauseMillis=50,-XX:MetaspaceSize=128m,-XX:MaxMetaspaceSize=256m,-XX:+UseG1GC,-XX:+UseStringDeduplication,-XX:StringDeduplicationAgeThreshold=8,`,
               rules: [{
                 pattern: '^[^\u4e00-\u9fa5]+$',
                 message: '不能含有中文字符',
