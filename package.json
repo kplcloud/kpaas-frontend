@@ -39,7 +39,7 @@
     "js-cookie": "2.2.0",
     "js-yaml": "^3.13.1",
     "json2yaml": "1.1.0",
-    "lodash": "4.17.19",
+    "lodash": "4.17.21",
     "lodash-decorators": "4.4.1",
     "moment": "2.19.1",
     "nprogress": "0.2.0",
