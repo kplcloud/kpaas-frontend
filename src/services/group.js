@@ -2,7 +2,7 @@ import request from '../utils/request';
 import Cookie from 'js-cookie';
 
 export async function grouplist(params) {
-  return request('/group', {
+  return request('/group/', {
     method: 'GET',
     params,
   });
@@ -18,14 +18,14 @@ export async function adminAddGroup(params) {
 }
 
 export async function member(params) {
-  return request('/member', {
+  return request('/member/', {
     method: 'GET',
     params,
   });
 }
 
 export async function ownNamespacesList() {
-  return request('/namespace');
+  return request('/namespace/');
 }
 
 export async function memberLike(params) {
