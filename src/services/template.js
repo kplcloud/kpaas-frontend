@@ -3,7 +3,7 @@
  */
 import request from '../utils/request';
 export async function templateList(params) {
-  return request('/template', {
+  return request('/template/', {
     method: 'GET',
     params,
   });
@@ -24,7 +24,7 @@ export async function updateTemplate(params) {
   });
 }
 export async function addTemplate(params) {
-  return request('/template', {
+  return request('/template/', {
     method: 'POST',
     body: {
       ...params,
@@ -32,7 +32,7 @@ export async function addTemplate(params) {
   });
 }
 export async function messageTemplateList(params) {
-  return request('/messageTemplate', {
+  return request('/messageTemplate/', {
     method: 'GET',
     params,
   });
@@ -53,7 +53,7 @@ export async function updateMessageTemplate(params) {
   });
 }
 export async function addMessageTemplate(params) {
-  return request('/messageTemplate', {
+  return request('/messageTemplate/', {
     method: 'POST',
     body: {
       ...params,
