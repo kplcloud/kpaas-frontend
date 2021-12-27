@@ -64,7 +64,7 @@ class IngressDetail extends PureComponent {
     return (
       <PageHeaderLayout
         title="Ingress 详情"
-        logo={<img alt="" src="https://niu.yirendai.com/kpl-logo-blue.png"/>}
+        logo={<img alt="" src="http://source.qiniu.cnd.nsini.com/kplcloud/kpl-logo-blue.png"/>}
         content={description}
         extraContent={extra}
       >

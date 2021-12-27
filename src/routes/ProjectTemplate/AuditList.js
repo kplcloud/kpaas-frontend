@@ -222,7 +222,7 @@ class AuditList extends PureComponent {
                   actions={[<a onClick={() => onDetail(item.name_en, item.namespace)}>详情</a>]}
                 >
                   <List.Item.Meta
-                    avatar={<Avatar src="https://niu.yirendai.com/kpl-logo-blue.png" shape="square"
+                    avatar={<Avatar src="http://source.qiniu.cnd.nsini.com/kplcloud/kpl-logo-blue.png" shape="square"
                                     size="large"/>}
                     title={<a onClick={() => onDetail(item.name_en, item.namespace)}>{item.name}</a>}
                     description={item.name_en}

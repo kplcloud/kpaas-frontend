@@ -40,7 +40,7 @@ class UserLayout extends React.PureComponent {
             <div className={styles.top}>
               <div className={styles.header}>
                 <Link to="/">
-                  <img alt="logo" className={styles.logo} src="https://niu.yirendai.com/kpl-logo-blue.png" />
+                  <img alt="logo" className={styles.logo} src="http://source.qiniu.cnd.nsini.com/kplcloud/kpl-logo-blue.png" />
                   <span className={styles.title}>开普勒云平台</span>
                 </Link>
               </div>

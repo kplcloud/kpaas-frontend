@@ -284,7 +284,7 @@ class Detail extends PureComponent {
     return (
       <PageHeaderLayout
         title={'虚拟服务'}
-        logo={<img alt="" src="https://niu.yirendai.com/kpl-logo-blue.png"/>}
+        logo={<img alt="" src="http://source.qiniu.cnd.nsini.com/kplcloud/kpl-logo-blue.png"/>}
         content={description}
         extraContent={extra}
         loading={loading}
